@@ -251,5 +251,7 @@ def generate_sudoku(size, removed):
     return board
 
 if __name__ == "__main__":
-    board = generate_sudoku(9, 50)
-    print(board)
+    start = SudokuGenerator(9, 50)
+    start.print_board()
+    # Loi Park making changes
+    # hi

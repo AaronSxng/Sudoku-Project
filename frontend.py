@@ -2,10 +2,19 @@ import pygame
 import sys
 from board import Board
 
+pygame.init()
+pygame.display.set_caption("Sudoku")
+
+BG_COLOR = (255, 255, 245)
+screen = pygame.display.set_mode((630, 700))
+
+start_title_font = pygame.font.Font(None, 80)
+title_font = pygame.font.Font(None, 80)
+text_font = pygame.font.Font(None, 50)
+
 
 # Basic Settings
 def draw_menu():
-
     bg_image = pygame.image.load("backgroundimage.jpg")
     screen.blit(bg_image, (0, 0))
 
@@ -37,29 +46,29 @@ def draw_menu():
     screen.blit(hard_surf, hard_rect)
     pygame.display.update()
 
-    for event in pygame.event.get():
+    while True:
+        for event in pygame.event.get():
 
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
 
-        # Easy
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if 110 <= mouse[0] <= 200 and 380 <= mouse[1] <= 420:
-                draw_board('easy')
-                main_menu = False
+            # Easy
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
 
-        # medium
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if 225 <= mouse[0] <= 375 and 380 <= mouse[1] <= 420:
-                draw_board('medium')
-                main_menu = False
+                if 110 <= mouse[0] <= 200 and 380 <= mouse[1] <= 420:
+                    draw_board('easy')
 
-        # hard
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if 430 <= mouse[0] <= 520 and 380 <= mouse[1] <= 420:
-                draw_board('hard')
-                main_menu = False
+                # medium
+                elif 225 <= mouse[0] <= 375 and 380 <= mouse[1] <= 420:
+                    draw_board('medium')
+
+                # hard
+                elif 430 <= mouse[0] <= 520 and 380 <= mouse[1] <= 420:
+                    draw_board('hard')
+
+            pygame.display.update()
 
 
 def draw_board(difficulty):
@@ -69,6 +78,8 @@ def draw_board(difficulty):
     pygame.display.update()
 
     while True:
+
+        mouse = pygame.mouse.get_pos()
 
         # Reset button
         pygame.draw.rect(screen, (245, 152, 66), [105, 645, 100, 40])
@@ -243,18 +254,4 @@ def draw_game_over():
 
 
 if __name__ == '__main__':
-    BG_COLOR = (255, 255, 245)
-
-    pygame.init()
-    pygame.display.set_caption("Sudoku")
-    mouse = pygame.mouse.get_pos()
-
-    start_title_font = pygame.font.Font(None, 80)
-    title_font = pygame.font.Font(None, 80)
-
-    text_font = pygame.font.Font(None, 50)
-
-    screen = pygame.display.set_mode((630, 700))
-
-    while True:
-        draw_menu()
+    draw_menu()

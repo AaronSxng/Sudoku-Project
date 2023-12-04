@@ -9,9 +9,8 @@ class Board:
         self.screen = screen 
         self.difficulty = difficulty
         self.board = sudoku_generator.generate_sudoku(width, difficulty)
-        self.cell = [[Cell(self.board[i][j], i, j, self.screen) 
+        self.cells = [[Cell(self.board[i][j], i, j, self.screen) 
                       for j in range(self.width)] for i in range(self.width)]
-
     #Draws outline of sudoku grid
     def draw(self):
         for i in range(0, 10):
@@ -21,7 +20,11 @@ class Board:
 
             pygame.draw.line(self.screen, (0, 0, 0), (50 + 50 * i, 50), (50 + 50 * i, 500), 2)
             pygame.draw.line(self.screen, (0, 0, 0), (50, 50 + 50 * i), (500, 50 + 50 * i), 2)
+        for i in range(self.width):
+            for j in range(self.height):
+                self.cells[i][j].draw()
         pygame.display.update()
+
 
     def select(self, row, col):
         pass

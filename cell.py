@@ -12,7 +12,12 @@ class Cell:
         self.value = value
 
     def set_sketched_value(self, value):
-        pass
+        self.value = value
 
     def draw(self):
-        pass
+        number_font = pygame.font.SysFont('arial_bold', 50)
+        if self.value != 0:
+            number = number_font.render(str(self.value),0,(0, 0, 0))
+            chip_x_rect = number.get_rect(
+                center=(75+self.row*50, 77.5+self.col*50))
+            self.screen.blit(number, chip_x_rect)

@@ -56,7 +56,7 @@ class Board:
 
     def place_number(self):
         cell = self.cells[self.current_cell[0]][self.current_cell[1]]
-        if cell.value == 0:
+        if cell.value == 0 and cell.sketched_value != None:
             pygame.draw.rect(self.screen, (255,255,255),(self.current_cell[0]*50+54,self.current_cell[1]*50+54,42,42))
             cell.value = cell.sketched_value
             cell.draw()

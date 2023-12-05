@@ -7,7 +7,6 @@ class Board:
         self.width = width
         self.height = height
         self.screen = screen 
-        self.difficulty = difficulty
         self.board = sudoku_generator.generate_sudoku(width, difficulty)
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) 
                       for j in range(self.width)] for i in range(self.width)]
@@ -61,6 +60,11 @@ class Board:
             pygame.draw.rect(self.screen, (255,255,255),(self.current_cell[0]*50+54,self.current_cell[1]*50+54,42,42))
             cell.value = cell.sketched_value
             cell.draw()
+        for i in range(self.width):
+            for j in range(self.height):
+                print(self.cells[j][i].value, end=' ')
+            print('', end='\n')
+        print()
 
     def reset_to_original(self):
         for i in range(self.width):
@@ -84,36 +88,35 @@ class Board:
         pass
 
     def check_board(self):
-        losing_tracker = False
-        for row in range(self.width):
-            number_list = []
-            for col in range(self.height):
-                number_list.append(self.cells[row][col])
-            for i in range(1, len(number_list) + 1):
-                if i not in number_list:
-                    losing_tracker = True
+        win = True
+        for i in range(self.width):
+            list = []
+            for j in range(self.height):
+                if self.cells[i][j].value not in list:
+                    list.append(self.cells[i][j].value)
+                else:
+                    win = False
 
-        for col in range(self.height):
-            number_list = []
-            for row in range(self.width):
-                number_list.append(self.cells[row][col])
-            for i in range(1, len(number_list) + 1):
-                if i not in number_list:
-                    losing_tracker = True
-
-        for count in range(0, 7, 3):
-            for row in range(count, count + 3):
-                number_list = []
-                for col in range(count, count + 3):
-                    number_list.append(self.cells[row][col])
-                for i in range(1, len(number_list) + 1):
-                    if i not in number_list:
-                        losing_tracker = True
-
-        if losing_tracker:
-            print("You lose")
-            return False
-        else:
-            print("you won")
+        for i in range(self.width):
+            list = []
+            for j in range(1, self.height):
+                if self.cells[i][j].value not in list:
+                    list.append(self.cells[i][j].value)
+                else:
+                    win = False
+        
+        for x in range(0, 7, 3):
+            for y in range(0, 7, 3):
+                list = []
+                for i in range(x, x+3):
+                    for j in range(y, y+3):
+                        if self.cells[i][j].value not in list:
+                            list.append(self.cells[i][j].value)
+                        else:
+                            win = False
+        if win:
+            print("You WON")
             return True
-    
+        else:
+            print("You Lost")
+        return False

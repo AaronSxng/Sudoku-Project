@@ -45,6 +45,8 @@ class Board:
         for i in range(self.width):
             for j in range(self.height):
                 self.cells[i][j].sketched_value = None
+        self.cells = [[Cell(self.board[i][j], i, j, self.screen) 
+                      for j in range(self.width)] for i in range(self.width)]
 
     def sketch(self, value):
         if self.cells[self.current_cell[0]][self.current_cell[1]].value == 0:

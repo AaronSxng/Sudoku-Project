@@ -37,6 +37,38 @@ def draw_game_start(screen):
                 return(50)
         pygame.display.update()    
 
+def draw_game_menu(screen):
+    board = Board(9, 9, screen, difficulty)
+    board.draw()
+    reset_img = pygame.image.load(f"{PATH}/reset.png").convert_alpha()
+    restart_img = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
+    exit_img = pygame.image.load(f"{PATH}/exit.png").convert_alpha()
+    reset_button = Button(80, 510, reset_img, 0.15)
+    restart_button = Button(235, 510, restart_img, 0.15)
+    exit_button = Button(390, 510, exit_img, 0.15)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                clicked_row = int(event.pos[1])
+                clicked_col = int(event.pos[0])
+                if board.click(clicked_row, clicked_col) != None:
+                    screen.fill((251, 247, 245))
+                    board.draw()
+                    reset_button = Button(80, 510, reset_img, 0.15)
+                    restart_button = Button(235, 510, restart_img, 0.15)
+                    exit_button = Button(390, 510, exit_img, 0.15)
+                    board.select((clicked_row-50)//50+1, (clicked_col-50)//50+1)
+
+            if reset_button.draw(screen):
+                return(1)
+            if restart_button.draw(screen):
+                return(2)
+            if exit_button.draw(screen):
+                return(3)
+        pygame.display.update()
+
 if __name__ == '__main__':
     game_over = False
 
@@ -44,11 +76,20 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Sudoku game")
 
-    difficulty = draw_game_start(screen)
+    option = 1
 
-    screen.fill((251, 247, 245))
-    board = Board(9, 9, screen, difficulty)
-    board.draw()
+    loop = True
+    while loop:
+        match option:
+            case 1:
+                difficulty = draw_game_start(screen)
+                screen.fill((251, 247, 245))
+                option = draw_game_menu(screen)
+            case 2:
+                pass
+            case 3:
+                loop = False
+                sys.exit()
 
     pygame.display.update()
 

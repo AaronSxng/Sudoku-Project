@@ -26,14 +26,15 @@ class Board:
         pygame.display.update()
 
     def select(self, row, col):
-        pygame.draw.line(self.screen, (0, 255, 0), (50 + 50 * row, 50), (50 + 50 * row, 500), 4)
-        pygame.draw.line(self.screen, (0, 255, 0), (50, 50 + 50 * row), (500, 50 + 50 * row), 4)
-        pygame.draw.line(self.screen, (0, 255, 0), (50 + 50 * col, 50), (50 + 50 * col, 500), 2)
-        pygame.draw.line(self.screen, (0, 255, 0), (50, 50 + 50 * col), (500, 50 + 50 * col), 2)
+        print(row,col)
+        pygame.draw.line(self.screen, (255, 0, 0), (col*50, row*50), (col*50+50, row*50), 4)
+        pygame.draw.line(self.screen, (255, 0, 0), (col*50, row*50+50), (col*50+50, row*50+50), 4)
+        pygame.draw.line(self.screen, (255, 0, 0), (col*50, row*50), (col*50, row*50+50), 4)
+        pygame.draw.line(self.screen, (255, 0, 0), (col*50+50, row*50), (col*50+50, row*50+50), 4)
+        pygame.display.update()
 
     def click(self, x, y):
-        pos = pygame.mouse.get_pos()
-        if (x > 50 and x < 450) and (y > 50 and y < 450):
+        if (x > 50 and x < 500) and (y > 50 and y < 500):
             return (x,y)
         return None
 

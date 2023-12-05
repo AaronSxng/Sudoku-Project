@@ -5,7 +5,8 @@ from Button import Button
 SCREEN_WIDTH = 550
 SCREEN_HEIGHT = 600
 
-PATH = r"C:\Users\jimin\개개비\SUDOKU\Sudoku-Project\images"
+#PATH = r"C:\Users\jimin\개개비\SUDOKU\Sudoku-Project\images"
+PATH = "C:/Users/Aaron/OneDrive/Documents/UF/COP3502C/Sudoku-Project/images"
 
 def draw_game_start(screen):
     #background

@@ -37,8 +37,7 @@ def draw_game_start(screen):
                 return(50)
         pygame.display.update()    
 
-def draw_game_menu(screen):
-    board = Board(9, 9, screen, difficulty)
+def draw_game_menu(screen, board):
     board.draw()
     reset_img = pygame.image.load(f"{PATH}/reset.png").convert_alpha()
     restart_img = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
@@ -84,6 +83,8 @@ def draw_game_menu(screen):
                         board.sketch(8)
                     case pygame.K_9:
                         board.sketch(9)
+                    case pygame.K_RETURN:
+                        board.place_number()
                     
             if reset_button.draw(screen):
                 return(1)
@@ -100,17 +101,21 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Sudoku game")
 
-    option = 1
+    option = 2
 
     loop = True
     while loop:
         match option:
             case 1:
+                screen.fill((251, 247, 245))
+                option = draw_game_menu(screen,board)
+                board.clear()
+                board.draw()
+            case 2:
                 difficulty = draw_game_start(screen)
                 screen.fill((251, 247, 245))
-                option = draw_game_menu(screen)
-            case 2:
-                pass
+                board = Board(9, 9, screen, difficulty)
+                option = draw_game_menu(screen,board)
             case 3:
                 loop = False
                 sys.exit()

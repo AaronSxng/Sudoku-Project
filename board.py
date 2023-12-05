@@ -42,18 +42,24 @@ class Board:
         return None
 
     def clear(self):
-        pass
+        for i in range(self.width):
+            for j in range(self.height):
+                self.cells[i][j].sketched_value = None
 
     def sketch(self, value):
-        if value == 0:
+        if self.cells[self.current_cell[0]][self.current_cell[1]].value == 0:
             pygame.draw.rect(self.screen, (255,255,255),(self.current_cell[0]*50+54,self.current_cell[1]*50+54,42,42))
             cell = self.cells[self.current_cell[0]][self.current_cell[1]]
             cell.set_sketched_value(value)
             cell.draw_sketched_value()
 
-    def place_number(self, value):
-        pass
-    
+    def place_number(self):
+        cell = self.cells[self.current_cell[0]][self.current_cell[1]]
+        if cell.value == 0:
+            pygame.draw.rect(self.screen, (255,255,255),(self.current_cell[0]*50+54,self.current_cell[1]*50+54,42,42))
+            cell.value = cell.sketched_value
+            cell.draw()
+
     def reset_to_original(self):
         for i in range(self.width):
             for j in range(self.height):

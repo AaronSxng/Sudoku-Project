@@ -31,7 +31,7 @@ def draw_game_start(screen):
             if event.type == pygame.QUIT:
                 sys.exit()
             if easy_button.draw(screen):
-                return(1)
+                return(30)
             if medium_button.draw(screen):
                 return(40)
             if hard_button.draw(screen):
@@ -49,11 +49,11 @@ def draw_game_menu(screen, board):
     lose_statement = True
     while True:
         if board.is_full() and lose_statement:
-            if board.check_board():
-                draw_game_won()
-            else:
-                draw_game_lose()
             lose_statement = False
+            if board.check_board():      
+                return draw_game_won(screen)
+            else:
+                return draw_game_lose(screen)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -98,25 +98,31 @@ def draw_game_menu(screen, board):
                 return(3)
         pygame.display.update()
 
-def draw_game_won():
+def draw_game_won(screen):
      #background
+    screen.fill((251, 247, 245))
     bg = pygame.image.load(f"{PATH}/backgroundimage.jpg")
     screen.blit(bg, (0, 0))
 
-     #draw title
+    #draw title
     font = pygame.font.SysFont('arial_bold', 60)
     title = font.render('Game Won!', True, (255, 255, 255))
     screen.blit(title, (SCREEN_WIDTH / 2 - title.get_width() / 2, SCREEN_WIDTH / 2 - title.get_height()))
 
     exit_img = pygame.image.load(f"{PATH}/exit.png").convert_alpha()
-    exit_button = Button(255, 400, exit_img, 0.15)
+    exit_button = Button(225, 360, exit_img, 0.15)
 
-    if exit_button.draw(screen):
-        quit()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if exit_button.draw(screen):
+                return 3
+        pygame.display.update()
 
-    
-def draw_game_lose():
+def draw_game_lose(screen):
     #background
+    screen.fill((251, 247, 245))
     bg = pygame.image.load(f"{PATH}/backgroundimage.jpg")
     screen.blit(bg, (0, 0))
     
@@ -125,11 +131,16 @@ def draw_game_lose():
     title = font.render('Game Over :()', True, (255, 255, 255))
     screen.blit(title, (SCREEN_WIDTH / 2 - title.get_width() / 2, SCREEN_WIDTH / 2 - title.get_height()))
 
-    restart_img = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
-    restart_button = Button(255, 400, restart_img, 0.15)
+    restart = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
+    restart_button = Button(225, 360, restart, 0.15)
 
-    if restart_button.draw(screen):
-        return(2)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if restart_button.draw(screen):
+                return 2
+        pygame.display.update()
 
 if __name__ == '__main__':
     game_over = False

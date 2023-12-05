@@ -31,7 +31,7 @@ def draw_game_start(screen):
             if event.type == pygame.QUIT:
                 sys.exit()
             if easy_button.draw(screen):
-                return(30)
+                return(1)
             if medium_button.draw(screen):
                 return(40)
             if hard_button.draw(screen):
@@ -49,7 +49,10 @@ def draw_game_menu(screen, board):
     lose_statement = True
     while True:
         if board.is_full() and lose_statement:
-            print(board.check_board())
+            if board.check_board():
+                draw_game_won()
+            else:
+                draw_game_lose()
             lose_statement = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

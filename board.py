@@ -11,6 +11,7 @@ class Board:
         self.board = sudoku_generator.generate_sudoku(width, difficulty)
         self.cells = [[Cell(self.board[i][j], i, j, self.screen) 
                       for j in range(self.width)] for i in range(self.width)]
+        self.current_cell = None
     #Draws outline of sudoku grid
     def draw(self):
         for i in range(0, 10):
@@ -23,15 +24,17 @@ class Board:
         for i in range(self.width):
             for j in range(self.height):
                 self.cells[i][j].draw()
+                if(self.cells[i][j].value == 0):
+                    self.cells[i][j].draw_sketched_value()
         pygame.display.update()
 
     def select(self, row, col):
-        print(row,col)
         pygame.draw.line(self.screen, (255, 0, 0), (col*50, row*50), (col*50+50, row*50), 4)
         pygame.draw.line(self.screen, (255, 0, 0), (col*50, row*50+50), (col*50+50, row*50+50), 4)
         pygame.draw.line(self.screen, (255, 0, 0), (col*50, row*50), (col*50, row*50+50), 4)
         pygame.draw.line(self.screen, (255, 0, 0), (col*50+50, row*50), (col*50+50, row*50+50), 4)
         pygame.display.update()
+        self.current_cell = (col-1,row-1)
 
     def click(self, x, y):
         if (x > 50 and x < 500) and (y > 50 and y < 500):
@@ -42,7 +45,11 @@ class Board:
         pass
 
     def sketch(self, value):
-        pass
+        if value == 0:
+            pygame.draw.rect(self.screen, (255,255,255),(self.current_cell[0]*50+54,self.current_cell[1]*50+54,42,42))
+            cell = self.cells[self.current_cell[0]][self.current_cell[1]]
+            cell.set_sketched_value(value)
+            cell.draw_sketched_value()
 
     def place_number(self, value):
         pass
@@ -56,7 +63,7 @@ class Board:
     def is_full(self):
         for i in range(self.width):
             for j in range(self.height):
-                if self.cells[i][j] == 0:
+                if self.cells[i][j].value == 0:
                     return False
         return True
 
@@ -69,5 +76,36 @@ class Board:
         pass
 
     def check_board(self):
-        pass
+        losing_tracker = False
+        for row in range(self.width):
+            number_list = []
+            for col in range(self.height):
+                number_list.append(self.cells[row][col])
+            for i in range(1, len(number_list) + 1):
+                if i not in number_list:
+                    losing_tracker = True
+
+        for col in range(self.height):
+            number_list = []
+            for row in range(self.width):
+                number_list.append(self.cells[row][col])
+            for i in range(1, len(number_list) + 1):
+                if i not in number_list:
+                    losing_tracker = True
+
+        for count in range(0, 7, 3):
+            for row in range(count, count + 3):
+                number_list = []
+                for col in range(count, count + 3):
+                    number_list.append(self.cells[row][col])
+                for i in range(1, len(number_list) + 1):
+                    if i not in number_list:
+                        losing_tracker = True
+
+        if losing_tracker:
+            print("You lose")
+            return False
+        else:
+            print("you won")
+            return True
     

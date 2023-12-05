@@ -46,7 +46,11 @@ def draw_game_menu(screen):
     reset_button = Button(80, 510, reset_img, 0.15)
     restart_button = Button(235, 510, restart_img, 0.15)
     exit_button = Button(390, 510, exit_img, 0.15)
+    lose_statement = True
     while True:
+        if board.is_full() and lose_statement:
+            print(board.check_board())
+            lose_statement = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -60,7 +64,27 @@ def draw_game_menu(screen):
                     restart_button = Button(235, 510, restart_img, 0.15)
                     exit_button = Button(390, 510, exit_img, 0.15)
                     board.select((clicked_row-50)//50+1, (clicked_col-50)//50+1)
-
+            if event.type == pygame.KEYDOWN:
+                match event.key:
+                    case pygame.K_1:
+                        board.sketch(1)
+                    case pygame.K_2:
+                        board.sketch(2)
+                    case pygame.K_3:
+                        board.sketch(3)
+                    case pygame.K_4:
+                        board.sketch(4)
+                    case pygame.K_5:
+                        board.sketch(5)
+                    case pygame.K_6:
+                        board.sketch(6)
+                    case pygame.K_7:
+                        board.sketch(7)
+                    case pygame.K_8:
+                        board.sketch(8)
+                    case pygame.K_9:
+                        board.sketch(9)
+                    
             if reset_button.draw(screen):
                 return(1)
             if restart_button.draw(screen):

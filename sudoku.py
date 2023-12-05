@@ -5,7 +5,7 @@ from Button import Button
 SCREEN_WIDTH = 550
 SCREEN_HEIGHT = 600
 
-PATH = "C:/Users/Aaron/OneDrive/Documents/UF/COP3502C/Sudoku-Project/images"
+PATH = r"C:\Users\jimin\개개비\SUDOKU\Sudoku-Project\images"
 
 def draw_game_start(screen):
     #background
@@ -93,6 +93,39 @@ def draw_game_menu(screen, board):
             if exit_button.draw(screen):
                 return(3)
         pygame.display.update()
+
+def draw_game_won():
+     #background
+    bg = pygame.image.load(f"{PATH}/backgroundimage.jpg")
+    screen.blit(bg, (0, 0))
+
+     #draw title
+    font = pygame.font.SysFont('arial_bold', 60)
+    title = font.render('Game Won!', True, (255, 255, 255))
+    screen.blit(title, (SCREEN_WIDTH / 2 - title.get_width() / 2, SCREEN_WIDTH / 2 - title.get_height()))
+
+    exit_img = pygame.image.load(f"{PATH}/exit.png").convert_alpha()
+    exit_button = Button(255, 400, exit_img, 0.15)
+
+    if exit_button.draw(screen):
+        quit()
+
+    
+def draw_game_lose():
+    #background
+    bg = pygame.image.load(f"{PATH}/backgroundimage.jpg")
+    screen.blit(bg, (0, 0))
+    
+    #draw title
+    font = pygame.font.SysFont('arial_bold', 60)
+    title = font.render('Game Over :()', True, (255, 255, 255))
+    screen.blit(title, (SCREEN_WIDTH / 2 - title.get_width() / 2, SCREEN_WIDTH / 2 - title.get_height()))
+
+    restart_img = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
+    restart_button = Button(255, 400, restart_img, 0.15)
+
+    if restart_button.draw(screen):
+        return(2)
 
 if __name__ == '__main__':
     game_over = False

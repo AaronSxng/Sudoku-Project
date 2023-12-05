@@ -2,8 +2,6 @@ import pygame, sys
 from board import Board
 from Button import Button
 
-#test
-
 SCREEN_WIDTH = 550
 SCREEN_HEIGHT = 600
 

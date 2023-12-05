@@ -38,7 +38,7 @@ def draw_game_start(screen):
                 return(50)
         pygame.display.update()    
 
-def draw_game_menu(screen, board):
+def draw_game_menu(screen, board):  # creates game menu
     board.draw()
     reset_img = pygame.image.load(f"{PATH}/reset.png").convert_alpha()
     restart_img = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
@@ -51,9 +51,9 @@ def draw_game_menu(screen, board):
         if board.is_full() and lose_statement:
             lose_statement = False
             if board.check_board():      
-                return draw_game_won(screen)
+                return draw_game_won(screen)  # draws winning screen
             else:
-                return draw_game_lose(screen)
+                return draw_game_lose(screen)  # draw losing screen
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -69,7 +69,7 @@ def draw_game_menu(screen, board):
                     board.select((clicked_row-50)//50+1, (clicked_col-50)//50+1)
             if event.type == pygame.KEYDOWN:
                 match event.key:
-                    case pygame.K_1:
+                    case pygame.K_1:  # accounts for each key pressed and sketches accordingly
                         board.sketch(1)
                     case pygame.K_2:
                         board.sketch(2)
@@ -90,11 +90,11 @@ def draw_game_menu(screen, board):
                     case pygame.K_RETURN:
                         board.place_number()
                     
-            if reset_button.draw(screen):
+            if reset_button.draw(screen):  # resets the board
                 return(1)
-            if restart_button.draw(screen):
+            if restart_button.draw(screen): # restarts the board
                 return(2)
-            if exit_button.draw(screen):
+            if exit_button.draw(screen):  # quits the game
                 return(3)
         pygame.display.update()
 
@@ -130,7 +130,7 @@ def draw_game_lose(screen):
     font = pygame.font.SysFont('arial_bold', 60)
     title = font.render('Game Over :()', True, (255, 255, 255))
     screen.blit(title, (SCREEN_WIDTH / 2 - title.get_width() / 2, SCREEN_WIDTH / 2 - title.get_height()))
-
+    # restarts the image
     restart = pygame.image.load(f"{PATH}/restart.png").convert_alpha()
     restart_button = Button(225, 360, restart, 0.15)
 
@@ -154,17 +154,17 @@ if __name__ == '__main__':
     loop = True
     while loop:
         match option:
-            case 1:
+            case 1:  # each of the difficulties easy
                 screen.fill((251, 247, 245))
                 option = draw_game_menu(screen,board)
                 board.clear()
                 board.draw()
-            case 2:
+            case 2:  # Medium difficulty
                 difficulty = draw_game_start(screen)
                 screen.fill((251, 247, 245))
                 board = Board(9, 9, screen, difficulty)
                 option = draw_game_menu(screen,board)
-            case 3:
+            case 3:  # hard difficulty
                 loop = False
                 sys.exit()
 

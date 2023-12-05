@@ -87,25 +87,25 @@ class Board:
     def find_empty(self):
         pass
 
-    def check_board(self):
+    def check_board(self): # checks all win conditions
         win = True
-        for i in range(self.width):
-            list = []
+        for i in range(self.width):  # checks if number is in a specific column
+            list = []  # adds it to a list
             for j in range(self.height):
                 if self.cells[i][j].value not in list:
                     list.append(self.cells[i][j].value)
                 else:
                     win = False
 
-        for i in range(self.width):
-            list = []
+        for i in range(self.width):  # checks if the numbers is in specific row
+            list = []  # adds to list
             for j in range(1, self.height):
-                if self.cells[i][j].value not in list:
+                if self.cells[i][j].value not in list:  # checks to see if the number is in the list
                     list.append(self.cells[i][j].value)
                 else:
                     win = False
         
-        for x in range(0, 7, 3):
+        for x in range(0, 7, 3):  # checks the number in 3 by 3 cells
             for y in range(0, 7, 3):
                 list = []
                 for i in range(x, x+3):

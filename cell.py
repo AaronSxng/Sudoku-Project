@@ -1,7 +1,7 @@
 import pygame
 
 class Cell:
-    def __init__(self, value, row, col, screen):
+    def __init__(self, value, row, col, screen):  # initializes the cell
         self.value = value
         self.row = row
         self.col = col
@@ -15,7 +15,7 @@ class Cell:
     def set_sketched_value(self, value):
         self.sketched_value = value
 
-    def draw(self):
+    def draw(self):  # draws the cell
         number_font = pygame.font.SysFont('arial_bold', 50)
         if self.value != 0:
             number = number_font.render(str(self.value),0,(0, 0, 0))
@@ -23,7 +23,7 @@ class Cell:
                 center=(75+self.row*50, 77.5+self.col*50))
             self.screen.blit(number, chip_x_rect)
 
-    def draw_sketched_value(self):
+    def draw_sketched_value(self):  # draws the gray numbers in the cell
         number_font = pygame.font.SysFont('arial_bold', 40)
         if self.sketched_value != None and self.value == 0:
             number = number_font.render(str(self.sketched_value),0,(100, 100, 100))
